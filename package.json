@@ -4,9 +4,10 @@
   "author": "An Kun.",
   "license": "AGPL-3.0",
   "private": true,
+  "package_manager": "pnpm@7.5.1",
   "engines": {
     "pnpm": ">=8",
-    "node": "16.x"
+    "node": "22"
   },
 	"scripts": {
 		"dev": "run-p dev:webapp dev:server",
