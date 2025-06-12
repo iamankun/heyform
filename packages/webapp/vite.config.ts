@@ -52,15 +52,6 @@ export default defineConfig({
 			'@': resolve(__dirname, './src')
 		}
 	},
-	server: {
-		port: 3000,
-		host: true,
-		proxy: {
-			'/graphql': PROXY_CONFIG,
-			'/upload': PROXY_CONFIG,
-			'/image': PROXY_CONFIG
-		}
-	},
 	define: {
 		'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version),
 		'process.env': {
@@ -69,11 +60,21 @@ export default defineConfig({
 		},
 		'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
 	},
+	envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
 	css: {
 		preprocessorOptions: {
 			scss: {
 				additionalData: `@import "./src/styles/base";`
 			}
+		}
+	},
+	server: {
+		port: 3000,
+		host: true,
+		proxy: {
+			'/graphql': PROXY_CONFIG,
+			'/upload': PROXY_CONFIG,
+			'/image': PROXY_CONFIG
 		}
 	},
 })
