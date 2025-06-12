@@ -13,6 +13,7 @@
     "dev": "run-p dev:webapp dev:server",
     "dev:webapp": "pnpm --filter ./packages/webapp dev",
     "dev:server": "pnpm --filter ./packages/server dev",
+    "dev:todos": "pnpm --filter ./packages/webapp dev --port 3000",
     "build": "node build-vercel.js",
     "build:webapp": "pnpm --filter ./packages/webapp build",
     "build:server": "pnpm --filter ./packages/server build",
@@ -31,7 +32,12 @@
     "prebuild": "pnpm run clean-lockfile",
     "fresh-install": "pnpm run clean && pnpm run clean-lockfile && pnpm install --no-frozen-lockfile",
     "fix-install": "node scripts/fix-install.js",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "init:stack-auth": "node scripts/init-stack-auth.js",
+    "test:auth": "node -e \"console.log('Testing Stack Auth...'); require('./packages/server/src/lib/stack-auth.ts')\"",
+    "test:db": "node -e \"console.log('Testing Database...'); require('./packages/server/src/actions/actions.ts').then(m => m.testDatabaseConnection())\"",
+    "migrate:todos": "node scripts/neon-migrate.js",
+    "seed:todos": "node scripts/seed-todos.js"
   },
   "dependencies": {
     "npm-run-all": "^4.1.5",

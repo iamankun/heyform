@@ -4,15 +4,17 @@ interface EnvironmentConfig {
   database_url: string
   stack_project_id: string
   stack_secret_key: string
+  stack_publishable_key: string
   node_env: string
   port: number
 }
 
 export function validateEnvironment(): EnvironmentConfig {
   const required_env_vars = {
-    database_url: process.env.DATABASE_URL || process.env.POSTGRES_URL,
+    database_url: process.env.DATABASE_URL,
     stack_project_id: process.env.NEXT_PUBLIC_STACK_PROJECT_ID,
     stack_secret_key: process.env.STACK_SECRET_SERVER_KEY,
+    stack_publishable_key: process.env.NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY,
     node_env: process.env.NODE_ENV || 'development',
     port: parseInt(process.env.PORT || '3001')
   }
@@ -21,13 +23,16 @@ export function validateEnvironment(): EnvironmentConfig {
 
   // Check required variables
   if (!required_env_vars.database_url) {
-    missing_vars.push('DATABASE_URL or POSTGRES_URL')
+    missing_vars.push('DATABASE_URL')
   }
   if (!required_env_vars.stack_project_id) {
     missing_vars.push('NEXT_PUBLIC_STACK_PROJECT_ID')
   }
   if (!required_env_vars.stack_secret_key) {
     missing_vars.push('STACK_SECRET_SERVER_KEY')
+  }
+  if (!required_env_vars.stack_publishable_key) {
+    missing_vars.push('NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY')
   }
 
   if (missing_vars.length > 0) {
@@ -47,4 +52,64 @@ export function logEnvironmentStatus() {
   console.log(`  DATABASE_URL: ${process.env.DATABASE_URL ? '✅ Set' : '❌ Missing'}`)
   console.log(`  STACK_PROJECT_ID: ${process.env.NEXT_PUBLIC_STACK_PROJECT_ID ? '✅ Set' : '❌ Missing'}`)
   console.log(`  STACK_SECRET_KEY: ${process.env.STACK_SECRET_SERVER_KEY ? '✅ Set' : '❌ Missing'}`)
+  console.log(`  STACK_PUBLISHABLE_KEY: ${process.env.NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY ? '✅ Set' : '❌ Missing'}`)
+}
+
+interface DatabaseConfig {
+  database_url: string;
+  database_host: string;
+  database_name: string;
+  database_user: string;
+  is_ssl_enabled: boolean;
+}
+
+export function validateDatabaseEnvironment(): DatabaseConfig {
+  const database_url = process.env.DATABASE_URL;
+  
+  if (!database_url) {
+    throw new Error('DATABASE_URL environment variable is required');
+  }
+
+  // Parse database URL to extract components
+  try {
+    const url = new URL(database_url);
+    
+    const config: DatabaseConfig = {
+      database_url,
+      database_host: url.hostname,
+      database_name: url.pathname.slice(1), // Remove leading slash
+      database_user: url.username,
+      is_ssl_enabled: url.searchParams.get('sslmode') === 'require'
+    };
+
+    // Validate SSL is enabled for production
+    if (process.env.NODE_ENV === 'production' && !config.is_ssl_enabled) {
+      console.warn('⚠️ SSL is not enabled for database connection in production');
+    }
+
+    console.log('✅ Database configuration validated:', {
+      host: config.database_host,
+      database: config.database_name,
+      user: config.database_user,
+      ssl: config.is_ssl_enabled
+    });
+
+    return config;
+  } catch (error) {
+    throw new Error(`Invalid DATABASE_URL format: ${error.message}`);
+  }
+}
+
+export function logDatabaseStatus() {
+  try {
+    const config = validateDatabaseEnvironment();
+    console.log('🔗 Database Status:');
+    console.log(`  Host: ${config.database_host}`);
+    console.log(`  Database: ${config.database_name}`);
+    console.log(`  User: ${config.database_user}`);
+    console.log(`  SSL: ${config.is_ssl_enabled ? '✅ Enabled' : '❌ Disabled'}`);
+    console.log(`  Environment: ${process.env.NODE_ENV || 'development'}`);
+  } catch (error) {
+    console.error('❌ Database configuration error:', error.message);
+  }
 }
