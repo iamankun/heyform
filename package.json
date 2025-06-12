@@ -15,7 +15,10 @@
 		"build:server": "pnpm --filter ./packages/server build",
 		"build:deps": "pnpm --filter ./packages/utils build && pnpm --filter ./packages/shared-types-enums build && pnpm --filter ./packages/answer-utils build",
 		"db:migrate": "pnpm --filter ./packages/server db:migrate",
-		"db:studio": "pnpm --filter ./packages/server db:studio"
+		"db:studio": "pnpm --filter ./packages/server db:studio",
+		"setup:env": "node scripts/setup-env.js",
+		"env:pull": "vercel env pull .env.development.local",
+		"env:pull:production": "vercel env pull .env.production.local --environment=production"
 	},
   "dependencies": {
     "npm-run-all": "^4.1.5",
