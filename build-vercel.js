@@ -7,9 +7,15 @@ const path = require('path');
 console.log('🚀 Starting Vercel build process...');
 
 try {
-  // Install dependencies
+  // Remove existing lockfile to avoid mismatch
+  console.log('🗑️ Removing existing lockfile...');
+  if (fs.existsSync('pnpm-lock.yaml')) {
+    fs.unlinkSync('pnpm-lock.yaml');
+  }
+
+  // Install dependencies with no frozen lockfile
   console.log('📦 Installing dependencies...');
-  execSync('pnpm install', { stdio: 'inherit' });
+  execSync('pnpm install --no-frozen-lockfile', { stdio: 'inherit' });
 
   // Build dependencies
   console.log('🔧 Building dependencies...');

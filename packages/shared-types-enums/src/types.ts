@@ -20,3 +20,25 @@ export interface Workspace {
   created_at: Date
   updated_at: Date
 }
+
+export interface Project {
+  id: string
+  name: string
+  workspace_id: string
+  created_by: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface Form {
+  id: string
+  title: string
+  description?: string
+  project_id: string
+  form_schema?: any
+  settings?: any
+  status: string
+  created_by: string
+  created_at: Date
+  updated_at: Date
+}

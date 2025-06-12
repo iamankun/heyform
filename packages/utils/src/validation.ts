@@ -8,3 +8,17 @@ export function validate_email(email: string): boolean {
   const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return email_regex.test(email)
 }
+
+export function validate_phone(phone: string): boolean {
+  const phone_regex = /^\+?[\d\s\-\(\)]+$/
+  return phone_regex.test(phone)
+}
+
+export function validate_url(url: string): boolean {
+  try {
+    new URL(url)
+    return true
+  } catch {
+    return false
+  }
+}

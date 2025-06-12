@@ -18,3 +18,11 @@ export function is_valid_url(url: string): boolean {
     return false
   }
 }
+
+export function sanitize_string(input: string): string {
+  return input.replace(/[<>]/g, '')
+}
+
+export function format_date(date: Date): string {
+  return date.toISOString().split('T')[0]
+}

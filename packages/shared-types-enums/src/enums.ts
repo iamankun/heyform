@@ -11,3 +11,19 @@ export enum UserRole {
   ADMIN = 'admin',
   MEMBER = 'member'
 }
+
+export enum FieldType {
+  SHORT_TEXT = 'short_text',
+  LONG_TEXT = 'long_text',
+  EMAIL = 'email',
+  PHONE = 'phone',
+  NUMBER = 'number',
+  CHOICE = 'choice',
+  DATE = 'date'
+}
+
+export enum IntegrationType {
+  WEBHOOK = 'webhook',
+  EMAIL = 'email',
+  SLACK = 'slack'
+}
