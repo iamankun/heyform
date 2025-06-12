@@ -2,27 +2,27 @@
   "version": 2,
   "builds": [
     {
-      "src": "packages/webapp/package.json",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "buildCommand": "pnpm build:webapp"
+        "distDir": "dist"
       }
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
+  ]
+}
   ],
-  "functions": {},
   "framework": null,
   "outputDirectory": "packages/webapp/dist"
+}
 }
       }
     }

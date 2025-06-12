@@ -10,7 +10,7 @@
 		"dev": "run-p dev:webapp dev:server",
 		"dev:webapp": "pnpm --filter ./packages/webapp dev",
 		"dev:server": "pnpm --filter ./packages/server dev",
-		"build": "pnpm build:webapp",
+		"build": "node build-vercel.js",
 		"build:webapp": "pnpm --filter ./packages/webapp build",
 		"build:server": "pnpm --filter ./packages/server build",
 		"build:deps": "pnpm --filter ./packages/utils build && pnpm --filter ./packages/shared-types-enums build && pnpm --filter ./packages/answer-utils build",
@@ -44,4 +44,4 @@
 		"endpoint": "https://api.stack-auth.com/api/v1/projects/766ab62c-c23c-42f8-a86d-c54110398d2b/.well-known/jwks.json",
 		"keys": []
 	},
-	"fetch_jwks": "const axios = require('axios');\n\n/**\n * Fetch JWKS (JSON Web Key Set) from the configured endpoint.\n * @returns {Promise<Object>} The JWKS object.\n */\nasync function fetch_jwks() {\n  // Use underscore for field names as per user instruction\n  const jwks_endpoint = 'https://api.stack-auth.com/api/v1/projects/766ab62c-c23c-42f8-a86d-c54110398d2b/.well-known/jwks.json';\n  try {\n    const response = await axios.get(jwks_endpoint);\n    return response.data;\n  } catch (error) {\n    throw new Error('Failed to fetch JWKS: ' + error.message);\n  }\n}\n\nmodule.exports = { fetch_jwks };"}
+	"fetch_jwks": "const axios = require('axios');\n\n/**\n * Fetch JWKS (JSON Web Key Set) from the configured endpoint.\n * @returns {Promise<Object>} The JWKS object.\n */\nasync function fetch_jwks() {\n  // Use underscore for field names as per user instruction\n  const jwks_endpoint = 'https://api.stack-auth.com/api/v1/projects/766ab62c-c23c-42f8-a86d-c54110398d2b/.well-known/jwks.json';\n  try {\n    const response = await axios.get(jwks_endpoint);\n    return response.data;\n  } catch (error) {\n    throw new Error('Failed to fetch JWKS: ' + error.message);\n  }\n}\n\nmodule.exports = { fetch_jwks };
