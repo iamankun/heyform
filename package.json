@@ -22,25 +22,22 @@
     "axios": "1.6.8"
   },
 	"pnpm": {
-		"neverBuiltDependencies": [],
+		"never_built_dependencies": [],
 		"overrides": {
 			"apollo-upload-client": "17.0.0",
 			"fs-capacitor": "6.2.0",
 			"multer": "1.4.5-lts.1",
 			"express": "4.19.2",
-			"dayjs": "^1.11.3",
-			"i18next": "^21.9.1",
+			"lodash": "4.17.21",
+			"axios": "1.6.8",
+			"@babel/traverse": "7.23.2",
+			"node-fetch": "2.6.7",
 			"cross-fetch": "3.1.5",
 			"ip": "2.0.1",
 			"ws": "7.4.6",
 			"got": "11.8.5",
-			"react-i18next": "^11.18.6",
-			"@babel/traverse": "^7.24.1",
-			"node-fetch": "2.6.7",
-			"lodash": "4.17.21",
-			"qs": "^6.12.0",
-			"busboy": "1.6.0",
-			"minimist": "^1.2.6"
+			"qs": "6.12.0",
+			"busboy": "1.6.0"
 		}
 	},
 	"jwks": {
@@ -48,4 +45,3 @@
 		"keys": []
 	},
 	"fetch_jwks": "const axios = require('axios');\n\n/**\n * Fetch JWKS (JSON Web Key Set) from the configured endpoint.\n * @returns {Promise<Object>} The JWKS object.\n */\nasync function fetch_jwks() {\n  // Use underscore for field names as per user instruction\n  const jwks_endpoint = 'https://api.stack-auth.com/api/v1/projects/766ab62c-c23c-42f8-a86d-c54110398d2b/.well-known/jwks.json';\n  try {\n    const response = await axios.get(jwks_endpoint);\n    return response.data;\n  } catch (error) {\n    throw new Error('Failed to fetch JWKS: ' + error.message);\n  }\n}\n\nmodule.exports = { fetch_jwks };"
-}
