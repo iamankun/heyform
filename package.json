@@ -18,7 +18,11 @@
 		"db:studio": "pnpm --filter ./packages/server db:studio",
 		"setup:env": "node scripts/setup-env.js",
 		"env:pull": "vercel env pull .env.development.local",
-		"env:pull:production": "vercel env pull .env.production.local --environment=production"
+		"env:pull:production": "vercel env pull .env.production.local --environment=production",
+		"db:neon:migrate": "node scripts/neon-migrate.js",
+		"db:neon:seed": "node scripts/neon-seed.js",
+		"deploy:neon": "vercel --prod && pnpm run db:neon:migrate",
+		"health:neon": "curl -f http://localhost:3001/api/health/neon || echo 'Health check failed'"
 	},
   "dependencies": {
     "npm-run-all": "^4.1.5",

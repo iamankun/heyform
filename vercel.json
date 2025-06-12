@@ -17,16 +17,16 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
-}
   ],
-  "framework": null,
-  "outputDirectory": "packages/webapp/dist"
-}
-}
-      }
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 30
     }
   }
+}
 }
     "DATABASE_URL_UNPOOLED": "@database_url_unpooled",
     "POSTGRES_URL": "@postgres_url",
