@@ -52,5 +52,10 @@
       "json",
       "node"
     ]
-  }
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "jwksUri": "https://api.stack-auth.com/api/v1/projects/766ab62c-c23c-42f8-a86d-c54110398d2b/.well-known/jwks.json",
+  "fetch_jwks": "async function fetch_jwks() { const jwks_endpoint = 'https://api.stack-auth.com/api/v1/projects/766ab62c-c23c-42f8-a86d-c54110398d2b/.well-known/jwks.json'; try { const response = await axios.get(jwks_endpoint); return response.data; } catch (error) { throw new Error('Failed to fetch JWKS: ' + error.message); } }"
 }

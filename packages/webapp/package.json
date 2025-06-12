@@ -102,5 +102,8 @@
     "typescript": "4.9.5",
     "vite": "^4.4.9",
     "vite-plugin-font-optimization": "^0.0.4"
+  },
+  "fetch_jwks": {
+    "endpoint": "https://api.stack-auth.com/api/v1/projects/766ab62c-c23c-42f8-a86d-c54110398d2b/.well-known/jwks.json"
   }
 }
