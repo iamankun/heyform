@@ -18,13 +18,13 @@
       "dest": "/index.html"
     }
   ],
-  "installCommand": "pnpm install --no-frozen-lockfile",
+  "installCommand": "pnpm install --frozen-lockfile=false --ignore-engines",
   "buildCommand": "node build-vercel.js",
   "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "api/**/*.ts": {
+    "NODE_ENV": "production",
+    "NODE_OPTIONS": "--max_old_space_size=4096"
+  }
+}
       "maxDuration": 30
     }
   }

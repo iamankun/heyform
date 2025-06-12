@@ -7,6 +7,10 @@ const path = require('path');
 console.log('🚀 Starting Vercel build process...');
 
 try {
+  // Set environment variables for build
+  process.env.NODE_OPTIONS = '--max_old_space_size=4096';
+  process.env.CI = 'true';
+
   // Remove existing lockfile to avoid mismatch
   console.log('🗑️ Removing existing lockfile...');
   if (fs.existsSync('pnpm-lock.yaml')) {
@@ -15,9 +19,15 @@ try {
 
   // Install dependencies with no frozen lockfile
   console.log('📦 Installing dependencies...');
-  execSync('pnpm install --no-frozen-lockfile', { stdio: 'inherit' });
+  execSync('pnpm install --no-frozen-lockfile --ignore-engines', { 
+    stdio: 'inherit',
+    env: { 
+      ...process.env,
+      NODE_OPTIONS: '--max_old_space_size=4096'
+    }
+  });
 
-  // Build dependencies
+  // Build dependencies first
   console.log('🔧 Building dependencies...');
   execSync('pnpm run build:deps', { stdio: 'inherit' });
 
@@ -33,10 +43,15 @@ try {
     fs.rmSync(target_dir, { recursive: true });
   }
   
-  fs.cpSync(source_dir, target_dir, { recursive: true });
+  if (fs.existsSync(source_dir)) {
+    fs.cpSync(source_dir, target_dir, { recursive: true });
+  } else {
+    throw new Error('Build output directory not found');
+  }
   
   console.log('✅ Build completed successfully!');
 } catch (error) {
   console.error('❌ Build failed:', error.message);
+  console.error('Stack trace:', error.stack);
   process.exit(1);
 }

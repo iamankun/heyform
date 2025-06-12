@@ -37,7 +37,11 @@
     "test:auth": "node -e \"console.log('Testing Stack Auth...'); require('./packages/server/src/lib/stack-auth.ts')\"",
     "test:db": "node -e \"console.log('Testing Database...'); require('./packages/server/src/actions/actions.ts').then(m => m.testDatabaseConnection())\"",
     "migrate:todos": "node scripts/neon-migrate.js",
-    "seed:todos": "node scripts/seed-todos.js"
+    "seed:todos": "node scripts/seed-todos.js",
+    "fix-ci": "node scripts/fix-ci.js",
+    "ci:install": "pnpm install --frozen-lockfile=false --ignore-engines",
+    "ci:build": "pnpm run build:deps && pnpm run build:webapp",
+    "ci:test": "pnpm run type-check && pnpm run lint"
   },
   "dependencies": {
     "npm-run-all": "^4.1.5",
@@ -60,7 +64,11 @@
         "react-dom",
         "@types/react",
         "@types/react-dom"
-      ]
+      ],
+      "allowedVersions": {
+        "react": "18.x",
+        "react-dom": "18.x"
+      }
     }
   },
   "workspaces": [
