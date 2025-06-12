@@ -18,3 +18,11 @@ export * from './type'
 export * from './uuid'
 export * from './helpers'
 export * from './validation'
+
+export function format_email(email: string): string {
+  return email.toLowerCase().trim()
+}
+
+export function generate_id(): string {
+  return Math.random().toString(36).substr(2, 9)
+}

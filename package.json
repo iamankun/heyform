@@ -10,59 +10,17 @@
     "pnpm": ">=8.0.0"
   },
   "scripts": {
-    "dev": "run-p dev:webapp dev:server",
-    "dev:webapp": "pnpm --filter ./packages/webapp dev",
-    "dev:server": "pnpm --filter ./packages/server dev",
-    "build": "node build-vercel.js",
-    "build:webapp": "pnpm --filter ./packages/webapp build",
-    "build:server": "pnpm --filter ./packages/server build",
-    "build:deps": "pnpm --filter ./packages/utils build && pnpm --filter ./packages/shared-types-enums build && pnpm --filter ./packages/answer-utils build",
-    "db:migrate": "pnpm --filter ./packages/server db:migrate",
-    "db:studio": "pnpm --filter ./packages/server db:studio",
-    "setup:env": "node scripts/setup-env.js",
-    "env:pull": "vercel env pull .env.development.local",
-    "env:pull:production": "vercel env pull .env.production.local --environment=production",
-    "db:neon:migrate": "node scripts/neon-migrate.js",
-    "db:neon:seed": "node scripts/neon-seed.js",
-    "deploy:neon": "vercel --prod && pnpm run db:neon:migrate",
-    "health:neon": "curl -f http://localhost:3001/api/health/neon || echo 'Health check failed'",
-    "clean": "pnpm -r clean && rm -rf node_modules",
-    "fresh-install": "pnpm run clean && pnpm install --no-frozen-lockfile",
-    "fix-install": "node scripts/fix-install.js",
-    "fix-ci": "node scripts/fix-ci.js",
-    "ci:install": "pnpm install --frozen-lockfile=false --ignore-engines",
-    "ci:build": "pnpm run build:deps && pnpm run build:webapp",
-    "ci:test": "pnpm run type-check && pnpm run lint",
-    "preinstall": "npx only-allow pnpm"
+    "dev": "pnpm --filter ./packages/webapp dev",
+    "build": "pnpm --filter ./packages/webapp build",
+    "preview": "pnpm --filter ./packages/webapp preview",
+    "clean": "pnpm -r clean && rm -rf node_modules"
   },
   "dependencies": {
-    "next": "^14.2.3",
-    "npm-run-all": "^4.1.5",
-    "axios": "1.6.8",
-    "@neondatabase/serverless": "^0.9.0"
+    "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
     "@types/node": "^20.0.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "axios": "1.6.8",
-      "lodash": "4.17.21",
-      "typescript": "4.9.5"
-    },
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "react",
-        "react-dom",
-        "@types/react",
-        "@types/react-dom"
-      ],
-      "allowedVersions": {
-        "react": "18.x",
-        "react-dom": "18.x"
-      }
-    }
   },
   "workspaces": [
     "packages/*"

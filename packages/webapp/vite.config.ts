@@ -2,32 +2,32 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
-import fontOptimizationPlugin from "vite-plugin-font-optimization";
-
-const PROXY_CONFIG = {
-	target: 'http://127.0.0.1:8000',
-	secure: false,
-	changeOrigin: true
-}
-
-const htmlInjectionPlugin = () => ({
-	name: 'html-injection-plugin',
-	apply: 'build',
-	async transformIndexHtml(html: string) {
-		return html.replace('const heyform = {};', 'const heyform = {{{json rendererData}}};')
-	}
-})
 
 export default defineConfig({
-	plugins: [
-		react(),
-		htmlInjectionPlugin(),
-		fontOptimizationPlugin({
-			apply: 'build'
-		})
-	],
+	plugins: [react()],
 	build: {
 		outDir: 'dist',
+		assetsDir: 'assets',
+		sourcemap: false,
+		minify: 'esbuild',
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					vendor: ['react', 'react-dom']
+				}
+			}
+		}
+	},
+	resolve: {
+		alias: {
+			'@': resolve(__dirname, './src')
+		}
+	},
+	server: {
+		port: 3000,
+		host: true
+	}
+})
 		assetsDir: 'static',
 		sourcemap: false,
 		minify: 'terser',

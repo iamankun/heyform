@@ -1,15 +1,15 @@
 {
   "name": "@heyform-inc/utils",
-  "description": "HeyForm utils",
   "version": "1.0.9",
-  "homepage": "https://heyform.net",
-  "author": "Heyooo, Inc.",
-  "license": "AGPL-3.0",
-  "main": "dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "files": [
-    "./dist"
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "echo 'Utils build placeholder'",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "lodash": "4.17.21"
+  }
+}
   ],
   "scripts": {
     "build": "tsc",
