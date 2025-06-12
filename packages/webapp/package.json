@@ -1,8 +1,8 @@
 {
   "name": "webapp",
   "version": "1.0.0",
-  "homepage": "https://heyform.net",
-  "author": "Heyooo, Inc.",
+  "homepage": "https://heyform-webapp.vercel.app",
+  "author": "An Kun.",
   "license": "AGPL-3.0",
   "private": true,
   "scripts": {
