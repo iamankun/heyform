@@ -12,12 +12,12 @@
     "./dist"
   ],
   "scripts": {
-    "build": "echo 'Answer utils build placeholder'",
+    "build": "echo 'Answer utils: No build needed'",
     "test": "vitest",
     "cov": "vitest run --coverage",
     "lint": "eslint . --ext .ts --quiet --fix",
     "type-check": "tsc --pretty --noEmit",
-    "clean": "rm -rf dist",
+    "clean": "echo 'Answer utils: No cleanup needed'",
     "prebuild": "npm run clean"
   },
   "peerDependencies": {

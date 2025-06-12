@@ -12,11 +12,11 @@
 		"./dist"
 	],
 	"scripts": {
-		"build": "echo 'Types build placeholder'",
+		"build": "echo 'Types: No build needed'",
     "test": "jest",
     "cov": "jest --coverage",
     "lint": "eslint . --ext .ts --quiet --fix",
-    "clean": "rm -rf dist",
+    "clean": "echo 'Types: No cleanup needed'",
     "prebuild": "npm run clean"
   },
   "engines": {

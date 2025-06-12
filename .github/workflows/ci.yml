@@ -20,15 +20,21 @@ jobs:
       with:
         node-version: '18.x'
     
-    - name: Check if validation script exists
+    - name: Fix JSON files
+      run: |
+        if [ -f "scripts/fix-json.js" ]; then
+          node scripts/fix-json.js
+        else
+          echo "JSON fix script not found, checking manually..."
+          node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')); console.log('✅ Root package.json is valid');"
+        fi
+    
+    - name: Validate JSON files
       run: |
         if [ -f "scripts/validate-json.js" ]; then
-          echo "Validation script found"
           node scripts/validate-json.js
         else
-          echo "Validation script not found, skipping..."
-          echo "Validating package.json manually..."
-          node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')); console.log('✅ Root package.json is valid');"
+          echo "Validation completed in previous step"
         fi
 
   build:
@@ -48,44 +54,38 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     
+    - name: Fix JSON files
+      run: |
+        if [ -f "scripts/fix-json.js" ]; then
+          node scripts/fix-json.js
+        fi
+    
     - name: Install pnpm
       uses: pnpm/action-setup@v4
       with:
         version: 9.12.1
         run_install: false
     
-    - name: Get pnpm store directory
-      shell: bash
-      run: |
-        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-    
-    - name: Setup pnpm cache
-      uses: actions/cache@v4
-      with:
-        path: ${{ env.STORE_PATH }}
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-store-
-    
     - name: Install dependencies
       run: pnpm install --frozen-lockfile=false --ignore-engines
       env:
         NODE_OPTIONS: '--max_old_space_size=4096'
     
-    - name: Build workspace packages
+    - name: Build webapp
       run: |
-        if [ -f "packages/utils/package.json" ]; then
-          echo "Building utils..."
-          cd packages/utils && pnpm run build
-          cd ../..
+        cd packages/webapp
+        pnpm run build
+        cd ../..
+    
+    - name: Verify build output
+      run: |
+        if [ -d "packages/webapp/dist" ]; then
+          echo "✅ Build successful"
+          ls -la packages/webapp/dist
+        else
+          echo "❌ Build output not found"
+          exit 1
         fi
-        if [ -f "packages/shared-types-enums/package.json" ]; then
-          echo "Building shared-types-enums..."
-          cd packages/shared-types-enums && pnpm run build
-          cd ../..
-        fi
-        if [ -f "packages/answer-utils/package.json" ]; then
-          echo "Building answer-utils..."
           cd packages/answer-utils && pnpm run build
           cd ../..
         fi

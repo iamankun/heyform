@@ -13,7 +13,9 @@
     "dev": "pnpm --filter ./packages/webapp dev",
     "build": "pnpm --filter ./packages/webapp build",
     "preview": "pnpm --filter ./packages/webapp preview",
-    "clean": "pnpm -r clean && rm -rf node_modules"
+    "clean": "pnpm -r clean && rm -rf node_modules",
+    "fix-json": "node scripts/fix-json.js",
+    "validate": "node scripts/validate-json.js"
   },
   "dependencies": {
     "npm-run-all": "^4.1.5"

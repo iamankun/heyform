@@ -3,17 +3,17 @@
   "version": "1.0.9",
   "main": "src/index.ts",
   "scripts": {
-    "build": "echo 'Utils build placeholder'",
-    "clean": "rm -rf dist"
+    "build": "echo 'Utils: No build needed'",
+    "clean": "echo 'Utils: No cleanup needed'"
   },
   "dependencies": {
     "lodash": "4.17.21"
+  },
+  "devDependencies": {
+    "typescript": "4.9.5",
+    "@types/lodash": "4.17.0"
   }
 }
-  ],
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest",
     "cov": "vitest run --coverage",
     "lint": "eslint . --ext .ts --quiet --fix",
     "clean": "rimraf dist",

@@ -1,19 +1,19 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "packages/webapp/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
+  "buildCommand": "cd packages/webapp && npm run build",
+  "outputDirectory": "packages/webapp/dist",
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": null,
   "routes": [
     {
       "handle": "filesystem"
     },
     {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
       "src": "/(.*)",
       "dest": "/index.html"
     }
