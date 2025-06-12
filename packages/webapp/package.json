@@ -1,16 +1,14 @@
 {
   "name": "webapp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "https://heyform.net",
   "author": "Heyooo, Inc.",
   "license": "AGPL-3.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "type-check": "tsc --pretty --noEmit",
-    "lint": "eslint src --ext ts --ext tsx --fix",
-    "export": "mkdir -p ../server/static && cp -r dist/static/* ../server/static/ && cp dist/index.html ../server/view/"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
@@ -19,6 +17,7 @@
     "@heyform-inc/answer-utils": "^1.2.0",
     "@heyform-inc/shared-types-enums": "^1.1.4",
     "@heyform-inc/utils": "^1.0.9",
+    "@neondatabase/serverless": "^1.0.0",
     "@popperjs/core": "^2.11.5",
     "@tabler/icons-react": "^3.1.0",
     "@tailwindcss/forms": "^0.5.7",
@@ -93,6 +92,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "next": "^14.2.3",
     "postcss": "^8.4.16",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "0.4.1",
