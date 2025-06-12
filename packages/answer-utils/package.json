@@ -1,18 +1,18 @@
 {
   "name": "@heyform-inc/answer-utils",
   "description": "HeyForm Answer Utils",
-  "version": "1.3.0",
+  "version": "1.2.0",
   "homepage": "https://heyform.net",
   "author": "Heyooo, Inc.",
   "license": "AGPL-3.0",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "./dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsc",
     "test": "vitest",
     "cov": "vitest run --coverage",
     "lint": "eslint . --ext .ts --quiet --fix",
@@ -30,7 +30,7 @@
     "validator": "^13.7.0"
   },
   "dependencies": {
-    "@heyform-inc/shared-types-enums": "^1.1.8",
+    "@heyform-inc/shared-types-enums": "workspace:*",
     "@heyform-inc/utils": "^1.2.0",
     "big.js": "^6.2.1",
     "dayjs": "^1.11.3",
@@ -55,7 +55,7 @@
     "rimraf": "^5.0.7",
     "tslib": "^2.4.0",
     "tsup": "^8.0.2",
-    "typescript": "5.5.3",
+    "typescript": "4.9.5",
     "vitest": "^1.6.0"
   }
 }

@@ -12,7 +12,7 @@ async function fixInstallation() {
     console.log('🧹 Cleaning existing installations...');
     
     // Remove node_modules and lock files
-    const dirsToClean = [
+    const dirs_to_clean = [
       'node_modules',
       'packages/webapp/node_modules',
       'packages/server/node_modules',
@@ -21,20 +21,20 @@ async function fixInstallation() {
       'packages/answer-utils/node_modules'
     ];
     
-    const filesToClean = [
+    const files_to_clean = [
       'pnpm-lock.yaml',
       'package-lock.json',
       'yarn.lock'
     ];
     
-    dirsToClean.forEach(dir => {
+    dirs_to_clean.forEach(dir => {
       if (fs.existsSync(dir)) {
         console.log(`  Removing ${dir}...`);
         fs.rmSync(dir, { recursive: true, force: true });
       }
     });
     
-    filesToClean.forEach(file => {
+    files_to_clean.forEach(file => {
       if (fs.existsSync(file) && file !== 'pnpm-lock.yaml') {
         console.log(`  Removing ${file}...`);
         fs.unlinkSync(file);

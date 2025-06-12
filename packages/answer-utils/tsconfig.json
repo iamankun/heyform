@@ -1,23 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "removeComments": true,
-    "allowSyntheticDefaultImports": true,
-    "listEmittedFiles": true,
-    "listFiles": true,
-    "allowJs": false,
+    "target": "ES2020",
+    "module": "CommonJS",
     "declaration": true,
-    "sourceMap": true,
-    "importHelpers": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
   "exclude": [
     "coverage",
     "lib",
