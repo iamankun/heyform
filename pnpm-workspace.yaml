@@ -2,7 +2,7 @@
 
 packages:
   - 'packages/*'
-  - 'packages/webapp'
+  - 'app'
   - 'packages/server'
   - 'packages/utils'
   - 'packages/shared-types-enums'

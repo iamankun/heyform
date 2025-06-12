@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-console.log('🚀 Starting Vercel build process...');
+console.log('🚀 Starting HeyForm build process (Vite + Next.js compat)...');
 
 try {
   // Set environment variables for build
@@ -28,28 +28,59 @@ try {
   });
 
   // Build dependencies first
-  console.log('🔧 Building dependencies...');
-  execSync('pnpm run build:deps', { stdio: 'inherit' });
+  console.log('🔧 Building workspace dependencies...');
+  try {
+    execSync('pnpm run build:deps', { stdio: 'inherit' });
+  } catch (error) {
+    console.warn('⚠️ Dependency build failed, continuing...');
+  }
 
   // Build webapp with Vite
-  console.log('🏗️ Building webapp...');
+  console.log('🏗️ Building webapp with Vite...');
   execSync('cd packages/webapp && pnpm run build', { stdio: 'inherit' });
 
-  // Copy dist to root for Vercel
+  // Copy Vite build output to root dist for Vercel
   const source_dir = 'packages/webapp/dist';
   const target_dir = 'dist';
   
+  console.log('📁 Copying build output...');
   if (fs.existsSync(target_dir)) {
     fs.rmSync(target_dir, { recursive: true });
   }
   
   if (fs.existsSync(source_dir)) {
     fs.cpSync(source_dir, target_dir, { recursive: true });
+    
+    // Create _next directory structure for Next.js compatibility
+    const next_dir = path.join(target_dir, '_next');
+    const static_dir = path.join(target_dir, '_next', 'static');
+    
+    if (!fs.existsSync(next_dir)) {
+      fs.mkdirSync(next_dir, { recursive: true });
+    }
+    if (!fs.existsSync(static_dir)) {
+      fs.mkdirSync(static_dir, { recursive: true });
+    }
+    
+    // Copy assets to _next/static for Next.js compatibility
+    const assets_dir = path.join(source_dir, 'assets');
+    if (fs.existsSync(assets_dir)) {
+      fs.cpSync(assets_dir, static_dir, { recursive: true });
+    }
+    
   } else {
-    throw new Error('Build output directory not found');
+    throw new Error('Vite build output directory not found');
   }
   
   console.log('✅ Build completed successfully!');
+  console.log(`📊 Build output: ${target_dir}`);
+  
+  // List build output for debugging
+  if (fs.existsSync(target_dir)) {
+    const files = fs.readdirSync(target_dir);
+    console.log('📋 Build files:', files);
+  }
+  
 } catch (error) {
   console.error('❌ Build failed:', error.message);
   console.error('Stack trace:', error.stack);

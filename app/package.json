@@ -1,0 +1,15 @@
+{
+  "name": "heyform-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Using Vite build from packages/webapp'",
+    "dev": "echo 'Using Vite dev from packages/webapp'",
+    "start": "echo 'Static files served by Vercel'"
+  },
+  "dependencies": {
+    "next": "^14.2.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}
