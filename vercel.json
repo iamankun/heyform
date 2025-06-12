@@ -1,29 +1,29 @@
 {
   "version": 2,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "packages/server/src/index.ts"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "packages/webapp/$1"
+      "src": "packages/webapp/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "pnpm build:webapp"
+      }
     }
   ],
-  "functions": {
-    "packages/server/src/index.ts": {
-      "maxDuration": 30
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  }
+  ],
+  "functions": {},
+  "framework": null,
+  "outputDirectory": "packages/webapp/dist"
 }
-        "POSTGRES_URL": "@postgres_url",
-        "POSTGRES_URL_NON_POOLING": "@postgres_url_non_pooling",
-        "POSTGRES_PRISMA_URL": "@postgres_prisma_url",
-        "NEXT_PUBLIC_STACK_PROJECT_ID": "@next_public_stack_project_id",
-        "NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY": "@next_public_stack_publishable_client_key",
-        "STACK_SECRET_SERVER_KEY": "@stack_secret_server_key",
-        "JWT_SECRET": "@jwt_secret",
-        "NODE_ENV": "production"
       }
     }
   }
