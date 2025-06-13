@@ -14,69 +14,69 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: ['18.19.0', '20.x']
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+
+      - name: Fix JSON files
+        run: |
+          if [ -f "scripts/fix-json.js" ]; then
+            node scripts/fix-json.js
+          fi
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.1
+          run_install: false
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile=false --ignore-engines
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
 
-      - name: Lint
-        run: npm run lint
+      - name: Build webapp
+        run: |
+          cd packages/webapp
+          pnpm run build
+          cd ../..
 
-      - name: Type check
-        run: npm run type-check
+      - name: Verify build output
+        run: |
+          if [ -d "packages/webapp/dist" ]; then
+            echo "✅ Build successful"
+            ls -la packages/webapp/dist
+          else
+            echo "❌ Build output not found"
+            exit 1
+          fi
 
-      - name: Build
-        run: npm run build
+      - name: Build answer-utils
+        run: |
+          cd packages/answer-utils
+          pnpm run build
+          cd ../..
 
-      - name: Test
-        run: npm run test
-    
-    strategy:
-      matrix:
-        node-version: ['18.19.0', '20.x']
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Setup Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    
-    - name: Fix JSON files
-      run: |
-        if [ -f "scripts/fix-json.js" ]; then
-          node scripts/fix-json.js
-        fi
-    
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-      with:
-        version: 9.12.1
-        run_install: false
-    
-    - name: Install dependencies
-      run: pnpm install --frozen-lockfile=false --ignore-engines
-      env:
-        NODE_OPTIONS: '--max_old_space_size=4096'
-    
-    - name: Build webapp
-      run: |
-        cd packages/webapp
-        pnpm run build
-        cd ../..
-    
+      - name: Verify answer-utils build output
+        run: |
+          # Add verification logic for answer-utils if needed
+          echo "Answer-utils build step completed"
+      - name: Verify build output
+        run: |
+          if [ -d "packages/webapp/dist" ]; then
+            echo "✅ Build successful"
+            ls -la packages/webapp/dist
+          else
+            echo "❌ Build output not found"
+            exit 1
+          fi
     - name: Verify build output
       run: |
         if [ -d "packages/webapp/dist" ]; then

@@ -46,9 +46,14 @@ export async function AddTodoForm() {
       
       <form action={handleAddTodo} className="space-y-4">
         <div>
+          <label htmlFor="newTodo" className="block text-sm font-medium text-gray-700 mb-1">
+            Task
+          </label>
           <input 
+            id="newTodo"
             required 
             name="newTodo" 
+            type="text"
             placeholder="Enter a new todo"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
@@ -64,11 +69,6 @@ export async function AddTodoForm() {
     </div>
   );
 }
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter TODO title..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             disabled={loading}
           />
         </div>
