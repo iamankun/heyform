@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd packages/webapp && npm run build",
+  "buildCommand": "node scripts/vercel-build.js",
   "outputDirectory": "packages/webapp/dist",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "echo 'Custom install handled in build script'",
   "framework": null,
   "routes": [
     {

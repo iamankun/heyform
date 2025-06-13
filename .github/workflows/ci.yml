@@ -18,7 +18,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18.x'
+        node-version: '18.19.0'
     
     - name: Fix JSON files
       run: |
@@ -43,7 +43,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: ['18.19.0', '20.x']
     
     steps:
     - name: Checkout code
