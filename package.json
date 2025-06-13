@@ -5,31 +5,22 @@
   "author": "Heyooo, Inc.",
   "license": "AGPL-3.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "build": "turbo run build",
-    "build:server": "turbo run build --filter=@heyform-inc/server",
-    "build:webapp": "turbo run build --filter=@heyform-inc/webapp",
-    "dev": "turbo run dev --parallel",
-    "dev:server": "turbo run dev --filter=@heyform-inc/server",
-    "dev:webapp": "turbo run dev --filter=@heyform-inc/webapp",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "clean": "turbo run clean && rimraf node_modules",
+    "build": "cd packages/webapp && npm run build",
+    "dev": "cd packages/webapp && npm run dev",
+    "start": "cd packages/webapp && npm run start",
+    "lint": "cd packages/webapp && npm run lint",
+    "clean": "rm -rf node_modules packages/*/node_modules packages/*/.next",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "turbo": "^1.12.4",
     "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
-  },
-  "packageManager": "npm@10.2.4"
+  }
 }

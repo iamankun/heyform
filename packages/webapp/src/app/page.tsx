@@ -5,3 +5,5 @@ import { redirect } from 'next/navigation'
 export default function HomePage() {
   redirect('/todos')
 }
+
+//# sourceMappingURL=index.js.map
