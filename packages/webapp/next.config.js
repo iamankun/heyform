@@ -2,17 +2,22 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable Next.js since we're using Vite
+  reactStrictMode: true,
+  swcMinify: true,
   experimental: {
-    appDir: false
+    appDir: true
   },
-  // Export as static files
-  output: 'export',
-  trailingSlash: true,
-  // Skip build step since Vite handles it
-  skipTrailingSlashRedirect: true,
-  images: {
-    unoptimized: true
+  env: {
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:8000',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`
+      }
+    ]
   }
 }
 

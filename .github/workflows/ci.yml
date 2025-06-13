@@ -4,42 +4,42 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.19.0'
-    
-    - name: Fix JSON files
-      run: |
-        if [ -f "scripts/fix-json.js" ]; then
-          node scripts/fix-json.js
-        else
-          echo "JSON fix script not found, checking manually..."
-          node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')); console.log('✅ Root package.json is valid');"
-        fi
-    
-    - name: Validate JSON files
-      run: |
-        if [ -f "scripts/validate-json.js" ]; then
-          node scripts/validate-json.js
-        else
-          echo "Validation completed in previous step"
-        fi
-
   build:
-    needs: validate
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm run test
     
     strategy:
       matrix:

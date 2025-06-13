@@ -1,32 +1,32 @@
 {
   "version": 2,
-  "buildCommand": "node scripts/vercel-build.js",
-  "outputDirectory": "packages/webapp/dist",
-  "installCommand": "echo 'Custom install handled in build script'",
-  "framework": null,
+  "builds": [
+    {
+      "src": "packages/webapp/next.config.js",
+      "use": "@vercel/next",
+      "config": {
+        "projectSettings": {
+          "framework": "nextjs"
+        }
+      }
+    }
+  ],
   "routes": [
     {
-      "handle": "filesystem"
+      "src": "/api/(.*)",
+      "dest": "packages/webapp/api/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "packages/webapp/$1"
     }
-  ]
-}
-      "src": "/(.*)",
-      "dest": "/index.html"
+  ],
+  "functions": {
+    "packages/webapp/pages/api/**/*.js": {
+      "runtime": "nodejs18.x"
     }
-  ]
-}
-  "buildCommand": "node build-vercel.js",
-  "env": {
-    "NODE_ENV": "production",
-    "NODE_OPTIONS": "--max_old_space_size=4096"
   }
 }
-      "maxDuration": 30
-    }
   }
 }
 }

@@ -1,31 +1,35 @@
 {
   "name": "heyform",
-  "homepage": "https://heyform-webapp.vercel.app",
-  "author": "An Kun.",
+  "description": "HeyForm is an open-source form builder that allows anyone to create engaging conversational forms",
+  "homepage": "https://heyform.net",
+  "author": "Heyooo, Inc.",
   "license": "AGPL-3.0",
   "private": true,
-  "packageManager": "pnpm@9.12.1",
-  "engines": {
-    "node": "18.19.0",
-    "npm": ">=9.0.0",
-    "pnpm": ">=8.0.0"
-  },
-  "scripts": {
-    "dev": "pnpm --filter ./packages/webapp dev",
-    "build": "pnpm --filter ./packages/webapp build",
-    "preview": "pnpm --filter ./packages/webapp preview",
-    "clean": "pnpm -r clean && rm -rf node_modules",
-    "fix-json": "node scripts/fix-json.js",
-    "validate": "node scripts/validate-json.js"
-  },
-  "dependencies": {
-    "npm-run-all": "^4.1.5"
-  },
-  "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
-  },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "build:server": "turbo run build --filter=@heyform-inc/server",
+    "build:webapp": "turbo run build --filter=@heyform-inc/webapp",
+    "dev": "turbo run dev --parallel",
+    "dev:server": "turbo run dev --filter=@heyform-inc/server",
+    "dev:webapp": "turbo run dev --filter=@heyform-inc/webapp",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rimraf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "turbo": "^1.12.4",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "packageManager": "npm@10.2.4"
 }
