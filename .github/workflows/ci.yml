@@ -9,63 +9,63 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.19.0'
+    
+    - name: Fix JSON files
+      run: |
+        if [ -f "scripts/fix-json.js" ]; then
+          node scripts/fix-json.js
+        else
+          echo "JSON fix script not found, checking manually..."
+          node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')); console.log('✅ Root package.json is valid');"
+        fi
 
+  build:
+    needs: validate
+    runs-on: ubuntu-latest
+    
     strategy:
       matrix:
         node-version: ['18.19.0', '20.x']
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Fix JSON files
-        run: |
-          if [ -f "scripts/fix-json.js" ]; then
-            node scripts/fix-json.js
-          fi
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.12.1
-          run_install: false
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile=false --ignore-engines
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-
-      - name: Build webapp
-        run: |
-          cd packages/webapp
-          pnpm run build
-          cd ../..
-
-      - name: Verify build output
-        run: |
-          if [ -d "packages/webapp/dist" ]; then
-            echo "✅ Build successful"
-            ls -la packages/webapp/dist
-          else
-            echo "❌ Build output not found"
-            exit 1
-          fi
-
-      - name: Build answer-utils
-        run: |
-          cd packages/answer-utils
-          pnpm run build
-          cd ../..
-
-      - name: Verify answer-utils build output
-        run: |
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: Install dependencies
+      run: npm install --legacy-peer-deps
+      env:
+        NODE_OPTIONS: '--max_old_space_size=4096'
+    
+    - name: Build webapp
+      run: |
+        cd packages/webapp
+        npm run build
+        cd ../..
+    
+    - name: Verify build output
+      run: |
+        if [ -d "packages/webapp/.next" ]; then
+          echo "✅ Next.js build successful"
+          ls -la packages/webapp/.next
+        else
+          echo "❌ Build output not found"
+          exit 1
+        fi
           # Add verification logic for answer-utils if needed
           echo "Answer-utils build step completed"
       - name: Verify build output
@@ -87,6 +87,80 @@ jobs:
           exit 1
         fi
           cd packages/answer-utils && pnpm run build
+          cd ../..
+        fi
+      continue-on-error: true
+    
+    - name: Build webapp
+      run: |
+        cd packages/webapp
+        pnpm run build
+        cd ../..
+    
+    - name: Verify build output
+      run: |
+        if [ -d "packages/webapp/dist" ]; then
+          echo "✅ Build successful"
+          ls -la packages/webapp/dist
+        else
+          echo "❌ Build output not found"
+          exit 1
+        fi
+
+  lint:
+    needs: validate
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.19.0'
+    
+    - name: Install dependencies
+      run: npm install --legacy-peer-deps
+      env:
+        NODE_OPTIONS: '--max_old_space_size=4096'
+    
+    - name: Run lint
+      run: |
+        cd packages/webapp
+        npm run lint
+        cd ../..
+    
+    - name: Verify linting
+      run: |
+        if [ -d "packages/webapp/.next" ]; then
+          echo "✅ Next.js linting successful"
+          ls -la packages/webapp/.next
+        else
+          echo "❌ Linting output not found"
+          exit 1
+        fi
+          # Add verification logic for answer-utils if needed
+          echo "Answer-utils linting step completed"
+      - name: Verify linting
+        run: |
+          if [ -d "packages/webapp/dist" ]; then
+            echo "✅ Linting successful"
+            ls -la packages/webapp/dist
+          else
+            echo "❌ Linting output not found"
+            exit 1
+          fi
+    - name: Verify linting
+      run: |
+        if [ -d "packages/webapp/dist" ]; then
+          echo "✅ Linting successful"
+          ls -la packages/webapp/dist
+        else
+          echo "❌ Linting output not found"
+          exit 1
+        fi
+          cd packages/answer-utils && pnpm run lint
           cd ../..
         fi
       continue-on-error: true

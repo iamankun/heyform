@@ -26,3 +26,12 @@ export function format_email(email: string): string {
 export function generate_id(): string {
   return Math.random().toString(36).substr(2, 9)
 }
+
+export function is_valid_url(url: string): boolean {
+  try {
+    new URL(url)
+    return true
+  } catch {
+    return false
+  }
+}

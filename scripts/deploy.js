@@ -8,11 +8,11 @@ async function deploy() {
   try {
     // Clean install
     console.log('📦 Installing dependencies...');
-    execSync('pnpm install --frozen-lockfile=false', { stdio: 'inherit' });
+    execSync('npm install --legacy-peer-deps', { stdio: 'inherit' });
     
     // Build
     console.log('🏗️ Building application...');
-    execSync('node build-vercel.js', { stdio: 'inherit' });
+    execSync('npm run build', { stdio: 'inherit' });
     
     // Deploy to Vercel
     console.log('🌐 Deploying to Vercel...');
@@ -25,7 +25,7 @@ async function deploy() {
   }
 }
 
-deploy();
+deploy().catch(console.error);
   runCommand('pnpm run build', path.join(__dirname, '../packages/webapp'));
   
   console.log('✅ Deployment build completed successfully!');
